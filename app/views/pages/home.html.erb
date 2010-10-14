@@ -1,0 +1,83 @@
+    <!-- Simulated Data for Offline Demonstration -->
+    <h1>Did it go: <%= @foo %></h1>
+    
+       <% @cleanText=
+            ["Oracle sues Google over Android I.P.",
+             "HP ousts CEO Mark Hurd",
+             "SEC files civil lawsuit against Goldman Sachs",
+             "7.5 magnitude Earthquake strikes southern Taiwan",
+             "BP Oil Rig Deepwater Horizon explosion causes massive oil spill in Gulf of Mexico",
+             "Apple launches iPhone in China",
+             "Microsoft announces Windows 7 Phone specifications, manufacturing & development partners"
+            ]
+       %>
+
+       <% @urls=
+            ["http://www.ft.com",
+             "http://www.abc.com",
+             "http://www.sec.com",
+             "http://www.news.google/5455/",
+             "http://bit.ly/345435",
+             "http://ft.com/apple-launches-iPhone4-in-China",
+             "http://goo.gl/87876"
+            ]
+       %>
+
+       <% @geoTags=
+         [
+
+         ]
+       %>
+
+    <!-- End of simulated Data -->
+
+    <!-- Inputs -->
+      <b>Inputs</b> = <%= @tweetsSim[0][:user1].inspect %> <br/>
+             <%= @tweetsSim[1][:user2].inspect %><br/>
+             <%= @tweetsSim[2][:user3].inspect %><br/>
+             <%= @tweetsSim[3][:user4].inspect %><br/>
+             <%= @tweetsSim[4][:user5].inspect %><br/>
+             <%= @tweetsSim[5][:user6].inspect %><br/>
+             <%= @tweetsSim[6][:user7].inspect %><br/> <br/>
+
+     <!-- Event Table -->
+      <table><caption><b>Lawsuits</b></caption>
+         <tr> <td> <a href=<%= @urls[0] %> ><%=@cleanText[0] %> </a></td><td><font color="red">ORCL, GOOG (Short)</font> </td> </tr>
+        <tr> <td> <a href=<%= @urls[2] %> ><%=@cleanText[2] %> </a></td><td><font color="red">GS (Short, Monitor Criminal Investigation)</font> </td></tr>
+     </table>
+
+      <table><caption><b>Natural Catastrophes</b></caption>
+        <tr> <td> <a href=<%= @urls[3] %> ><%=@cleanText[3] %> </a></td><td><font color="red">TSM (Short), UMC (Short), TPE:6116 (Short) </td></font></tr>
+        <tr> <td> <a href=<%= @urls[4] %> ><%=@cleanText[4] %> </a> </td><td><font color="red">BP (Short), RIG (Short), HAL (Short)</font> </td></tr>
+     </table>
+
+     <table><caption><b>New Product/Service Launch/New Markets</b></caption>
+        <tr> <td> <a href=<%= @urls[5] %> ><%=@cleanText[5] %> </a> </td><td><font color="red">AAPL (Buy), GOOG (Short), NOK (Short)</font></td></tr>
+        <tr> <td> <a href=<%= @urls[6] %> ><%=@cleanText[6] %> </a></td><td><font color="green">MSFT (Buy)</font></td></tr>
+     </table>
+
+      <table><caption><b>Executive Departures</b></caption>
+        <tr> <td><a href=<%= @urls[1] %> ><%=@cleanText[1] %> </a> </td><td><font color="red">HPQ (short)</font> </td></tr>
+     </table>
+
+     <!-- StockTwitst Frequencies -->
+   
+     <!-- Motion Chart -->
+      <% chart_data = [
+             ["AAPL", Date.new(1998,1,1), 1000,300,'New Product'],
+             ["GOOG", Date.new(1998,1,1), 950,200,'Lawsuit Settlement'],
+             ["MSFT", Date.new(1998,1,1), 300,250,'Lawsuit Settlement'],
+             ["AAPL", Date.new(1998,2,1), 1200,400,'New Product'],
+             ["GOOG", Date.new(1998,2,1), 950,150,'Lawsuit Settlement'],
+             ["MSFT", Date.new(1998,2,1), 788,617,'Lawsuit Settlement']
+       ] %>
+
+<% visualization "chart_id", "MotionChart", :width => 500, :height => 300,  :html => {:class => "graph_class"} do |chart| %>
+ <% chart.string "Stock" %>
+ <% chart.date "Date" %>
+ <% chart.number "Price" %>
+ <% chart.number "Expenses" %>
+ <% chart.string "Event" %>
+
+ <% chart.add_rows(chart_data) %>
+<% end %>
