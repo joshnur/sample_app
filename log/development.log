@@ -3430,3 +3430,9 @@ Started GET "/pages/home" for 127.0.0.1 at 2010-10-14 07:50:29 -0400
   Processing by PagesController#home as HTML
 Rendered pages/home.html.erb within layouts/application (18.0ms)
 Completed 200 OK in 4209ms (Views: 141.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/pages/home" for 127.0.0.1 at 2010-10-14 19:56:34 -0400
+  Processing by PagesController#home as HTML
+Rendered pages/home.html.erb within layouts/application (16.0ms)
+Completed 200 OK in 4330ms (Views: 117.0ms | ActiveRecord: 0.0ms)

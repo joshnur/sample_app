@@ -22,6 +22,32 @@ class PagesController < ApplicationController
              {:user6 => "Apple launches iPhone in China http://ft.com/apple-launches-iPhone4-in-China"},
              {:user7 => "Microsoft announces Windows 7 Phone specifications, manufacturing & development partners http://bit.ly/344737"}
             ]
+
+     @cleanText=
+            ["Oracle sues Google over Android I.P.",
+             "HP ousts CEO Mark Hurd",
+             "SEC files civil lawsuit against Goldman Sachs",
+             "7.5 magnitude Earthquake strikes southern Taiwan",
+             "BP Oil Rig Deepwater Horizon explosion causes massive oil spill in Gulf of Mexico",
+             "Apple launches iPhone in China",
+             "Microsoft announces Windows 7 Phone specifications, manufacturing & development partners"
+            ]
+
+       @urls=
+            ["http://www.ft.com",
+             "http://www.abc.com",
+             "http://www.sec.com",
+             "http://www.news.google/5455/",
+             "http://bit.ly/345435",
+             "http://ft.com/apple-launches-iPhone4-in-China",
+             "http://goo.gl/87876"
+            ]
+
+       @geoTags=
+         [
+
+         ]
+
     #require "rubygems"
 
     # Parsing XML from the net
