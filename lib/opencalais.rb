@@ -8,7 +8,7 @@
 # describing Oracle and its structure:
 # http://d.opencalais.com/er/company/ralg-tr1r/eab9bfaa-47f1-368a-a9b7-a87bb345cf30.html
 #-----------------------------------------------------------------------------------------------------
-
+# Just testing
 # 0. Init
 require 'Calais'
 require 'pp'
