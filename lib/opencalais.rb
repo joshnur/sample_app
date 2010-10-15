@@ -1,6 +1,6 @@
 # Testing OpenCalais API
 
-#------ Entity/Event/Relationships Documentation ----------------------------------------------------
+#------ OpenCalais Entity/Event/Relationships Documentation ----------------------------------------------------
 # http://d.opencalais.com/1/pred/.html
 # In the Oracle sues Google below, there is the about page,
 # but it's referred to in the RDF response with an ending '\'.
@@ -8,6 +8,13 @@
 # describing Oracle and its structure:
 # http://d.opencalais.com/er/company/ralg-tr1r/eab9bfaa-47f1-368a-a9b7-a87bb345cf30.html
 #-----------------------------------------------------------------------------------------------------
+
+#------ Notes on the Calais gem ----
+# Documentation is bad as hell. 
+# Took lots of fiddling and looking 
+# at their code to see how it works
+# That shouldn't be necessary
+#-----------------------------------
 
 # 0. Init
 require 'Calais'
