@@ -1,41 +1,39 @@
 # Testing OpenCalais API
 
-#------ OpenCalais Entity/Event/Relationships Documentation ----------------------------------------------------
+#------ Entity/Event/Relationships Documentation ----------------------------------------------------
 # http://d.opencalais.com/1/pred/.html
 # In the Oracle sues Google below, there is the about page,
 # but it's referred to in the RDF response with an ending '\'.
 # This should be replaced with '.html' and it becomes an accessible link on OpenCalais,
 # describing Oracle and its structure:
 # http://d.opencalais.com/er/company/ralg-tr1r/eab9bfaa-47f1-368a-a9b7-a87bb345cf30.html
+# Note: The JSON response is incomplete and does not provide the Event details
 #-----------------------------------------------------------------------------------------------------
-
-#------ Notes on the Calais gem ----
-# Documentation is bad as hell. 
-# Took lots of fiddling and looking 
-# at their code to see how it works
-# That shouldn't be necessary
-#-----------------------------------
 
 # 0. Init
 require 'Calais'
 require 'pp'
-   
+
 @rdf_response = ''
+@json_response= ''
 MY_KEY = 'ab4m99h2dnxbv3pvf32h83n4'
 
 # 1. Pseudo Tweets
-username='user1' #unused here
+username='user1'
 tweet1="Oracle files lawsuit against Google over Java Intellectual Property $ORCL $GOOG"
 tweet2="Yahoo rumoured to be acquired by AOL http://www.google.com/hostednews/afp/article/ALeqM5hE3yxCplGAn0agqYcHjsF5RLGzig?docId=CNG.bd6bd0d86d63f1a0e61b464e310712d2.df1"
-timestamp= Time.now #unused here
+timestamp= Time.now
+
 
 # 2. Semantize the Tweet through OpenCalais
 
 # Get Raw OpenCalais Response
-# Try it with tweet2 instead and you'll see: Acquisition, datestring, date, company_beingacquired, status, type, company_acquirer
-#                                            status: [announced, planned, cancelled, postponed, rumored, known, closed, new]
-#                                            type: too many to mention here - refer to doc
-@rdf_response = Calais.enlighten(:content => tweet1, :content_type => :raw, :license_id =>MY_KEY)
+# Try it with tweet2 instead and you'll see: 
+# Acquisition, datestring, date, company_beingacquired, status, type, company_acquirer
+# status: [announced, planned, cancelled, postponed, rumored, known, closed, new]
+# type: too many to mention here - refer to doc
+
+@rdf_response = Calais.enlighten(:content => tweet1, :content_type => :raw, :license_id => MY_KEY)
 
 # 3. Capture Initial Tags, e.g. CompanyLegalIssues (this can be enhanced within a function or module)
 h = {}
@@ -43,20 +41,44 @@ index1 = @rdf_response.index('terms of service.-->') # Strip extraneous stuff
 index1 = @rdf_response.index('<!--', index1)
 index2 = @rdf_response.index('-->', index1)
 txt = @rdf_response[index1+4..index2-1]
+rdf = @rdf_response[index2+3..@rdf_response.length-1]
 lines = txt.split("\n")
 lines.each {|line|
             index = line.index(":")
             h[line[0...index]] = line[index+1..-1].split(',').collect {|x| x.strip} if index
            }
 
+
 # 5. Get RDF details e.g. Get company_sued, company_plaintiff, lawsuitclass (= class action or lawsuit)
 # like within the tag: <!--CompanyLegalIssues: company_sued: Google; company_plaintiff: Oracle; lawsuitclass: lawsuit; -->
 
-# ToDo
+tag = h['Relations'][0] #'CompanyLegalIssues'
+
+index1 = rdf.index('<!--'+tag.to_s, index1)
+index2 = rdf.index('-->', index1)
+
+internal = rdf[index1+4..index2-1]
+
+index1 = internal.index('company_sued: ')
+index2 = internal.index(';', index1)
+company_sued = internal[index1+14..index2-1]
+
+index1 = internal.index('company_plaintiff: ', index1)
+index2 = internal.index(';', index1)
+company_plaintiff = internal[index1+19..index2-1]
+
+index1 = internal.index('lawsuitclass: ', index1)
+index2 = internal.index(';', index1)
+lawsuit_class = internal[index1+14..index2-1]
 
 # 6. Display results
 
-puts h #These are the main tags/semantics
-puts "\n"
+#puts h['Relations'] #These are the main tags/semantics
 
-pp @rdf_response #This is what OpenCalais returns (for reference and study)
+#pp @rdf_response #This is what OpenCalais returns (for reference and study)
+
+puts "Sued:" + company_sued
+puts "Filed Lawsuit:" + company_plaintiff
+puts "Type of Lawsuit:" + lawsuit_class
+
+# 7 With this, populate proper User Interface section (i.e. Lawsuits)
